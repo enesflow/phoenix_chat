@@ -212,6 +212,11 @@ defmodule TwitterWeb.UserAuth do
   end
 
   defp put_token_in_session(conn, token) do
+    IO.puts("=====================")
+    IO.inspect(token)
+    IO.inspect(Base.url_encode64(token))
+    IO.puts("=====================")
+
     conn
     |> put_session(:user_token, token)
     |> put_session(:live_socket_id, "users_sessions:#{Base.url_encode64(token)}")

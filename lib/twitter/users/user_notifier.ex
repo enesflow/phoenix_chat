@@ -5,6 +5,8 @@ defmodule Twitter.Users.UserNotifier do
 
   # Delivers the email using the application mailer.
   defp deliver(recipient, subject, body) do
+    IO.puts(body)
+
     email =
       new()
       |> to(recipient)

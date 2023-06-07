@@ -29,15 +29,25 @@ defmodule TwitterWeb.UserConfirmationInstructionsLive do
   end
 
   def mount(_params, _session, socket) do
+    IO.puts("------------------------------------------")
+    IO.puts("Received mount event")
+    IO.puts("------------------------------------------")
     {:ok, assign(socket, form: to_form(%{}, as: "user"))}
   end
 
   def handle_event("send_instructions", %{"user" => %{"email" => email}}, socket) do
+    IO.puts("------------------------------------------")
+    IO.puts("Sending confirmation instructions to #{email}")
+    IO.puts("------------------------------------------")
+
     if user = Users.get_user_by_email(email) do
-      Users.deliver_user_confirmation_instructions(
-        user,
-        &url(~p"/users/confirm/#{&1}")
-      )
+      confirmation =
+        Users.deliver_user_confirmation_instructions(
+          user,
+          &url(~p"/users/confirm/#{&1}")
+        )
+
+      IO.inspect(confirmation)
     end
 
     info =
