@@ -8,58 +8,48 @@ defmodule QuickChatWeb.PageLive do
 
   def render(assigns) do
     ~H"""
-    <div>
-      <ul class="flex flex-row">
-        <%= for chat <- @chats do %>
-          <li class="mr-4">
-            <.link
-              phx-click="join"
-              phx-value-new-chat={chat.id}
-              class="font-semibold text-brand hover:underline"
-            >
-              <%= chat.title %>
-            </.link>
-          </li>
-        <% end %>
-        <.button
-          phx-click="new_chat"
-          class="bg-blue-500 hover:bg-blue-700 text-white font-bold rounded"
-        >
-          New chat
-        </.button>
-      </ul>
-      <h1>You are <b><%= @current_user.email %></b> in the chat <b><%= @chat.title %></b></h1>
-      <div
-        class="messages"
-        style="border: 1px solid #eee; height: 400px; overflow: scroll; margin-bottom: 8px;"
-      >
-        <%= for m <- @messages do %>
-          <p style="margin: 2px;"><b><%= m.user.email %></b>: <%= m.body %></p>
-        <% end %>
-      </div>
-      <.simple_form for={@form} phx-submit="send">
-        <div class="flex flex-row">
-          <!-- check if @form includes the errors key -->
-          <.error :if={@form && @form.errors != []}>
-            Oops, something went wrong! Please check the errors below.
-          </.error>
-          <input
-            type="text"
-            name="text"
-            value={@text}
-            class="flex-grow border border-gray-300 rounded-md px-3 py-2 mr-4 focus:outline-none focus:border-blue-300"
-            required
-          />
-          <button
-            phx-disable-with="Sending..."
-            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-          >
-            Send <.icon name="hero-paper-airplane-solid" class="ml-2" />
-          </button>
-        </div>
-      </.simple_form>
-    </div>
+    <.svelte
+      name="Chat"
+      props={%{chats: @chats, chat: @chat, messages: @messages, current_user: @current_user}}
+    />
     """
+  end
+
+  defp convert_message_to_map(message) do
+    %{
+      id: message.id,
+      body: message.body,
+      inserted_at: message.inserted_at,
+      user: %{
+        id: message.user.id,
+        email: message.user.email
+      }
+    }
+  end
+
+  defp convert_chats_to_map(chats) do
+    Enum.map(chats, fn chat ->
+      %{
+        id: chat.id,
+        title: chat.title,
+        members: chat.members
+      }
+    end)
+  end
+
+  defp convert_chat_to_map(chat) do
+    %{
+      id: chat.id,
+      title: chat.title,
+      members: chat.members
+    }
+  end
+
+  defp convert_current_user_to_map(user) do
+    %{
+      id: user.id,
+      email: user.email
+    }
   end
 
   def mount(_params, _session, socket) do
@@ -70,9 +60,13 @@ defmodule QuickChatWeb.PageLive do
      assign(socket,
        text: "",
        username: socket.assigns[:current_user].email,
-       messages: get_last_10_messages_for_chat(chat.id),
-       chat: chat,
-       chats: get_all_chats()
+       # get_last_10_messages_for_chat(chat.id),
+       # convert the above to a list of maps, avoid using Map.from_struct or anything like that
+       # we will manually convert the structs to maps using %{} here:
+       messages: get_last_10_messages_for_chat(chat.id) |> Enum.map(&convert_message_to_map/1),
+       chat: convert_chat_to_map(chat),
+       chats: get_all_chats() |> Enum.map(&convert_chat_to_map/1),
+       current_user: convert_current_user_to_map(socket.assigns[:current_user])
      ), temporary_assigns: [form: nil]}
   end
 
@@ -105,6 +99,10 @@ defmodule QuickChatWeb.PageLive do
     end
   end
 
+  defp get_user_by_id(id) do
+    Repo.get(User, id)
+  end
+
   defp get_all_chats do
     Chat
     |> order_by(asc: :inserted_at)
@@ -129,7 +127,8 @@ defmodule QuickChatWeb.PageLive do
 
   def handle_info(%{event: "message", payload: message}, socket) do
     #  handle_info is ran for every message sent to the "lobby" chat
-    {:noreply, assign(socket, messages: socket.assigns.messages ++ [message])}
+    {:noreply,
+     assign(socket, messages: socket.assigns.messages ++ [convert_message_to_map(message)])}
   end
 
   def handle_event("send", %{"text" => text}, socket) do
@@ -138,7 +137,7 @@ defmodule QuickChatWeb.PageLive do
       user_id: socket.assigns.current_user.id,
       body: text,
       chat_id: socket.assigns.chat.id,
-      user: socket.assigns.current_user
+      user: get_user_by_id(socket.assigns.current_user.id)
     }
 
     Repo.insert!(message)
@@ -147,13 +146,16 @@ defmodule QuickChatWeb.PageLive do
     {:noreply, assign(socket, text: "")}
   end
 
-  def handle_event("join", %{"new-chat" => new_chat}, socket) do
+  def handle_event("join", %{"chat_id" => chat_id}, socket) do
     # subscribe to the new chat, unsubscribe from the old one
     QuickChatWeb.Endpoint.unsubscribe("chat:#{socket.assigns.chat.id}")
-    QuickChatWeb.Endpoint.subscribe("chat:#{new_chat}")
+    QuickChatWeb.Endpoint.subscribe("chat:#{chat_id}")
 
     {:noreply,
-     assign(socket, chat: get_chat(new_chat), messages: get_last_10_messages_for_chat(new_chat))}
+     assign(socket,
+       chat: convert_chat_to_map(get_chat(chat_id)),
+       messages: get_last_10_messages_for_chat(chat_id) |> Enum.map(&convert_message_to_map/1)
+     )}
   end
 
   def handle_event("new_chat", _, socket) do
@@ -167,9 +169,10 @@ defmodule QuickChatWeb.PageLive do
 
         {:noreply,
          assign(socket,
-           chat: chat,
-           messages: get_last_10_messages_for_chat(chat.id),
-           chats: socket.assigns.chats ++ [chat]
+           chat: convert_chat_to_map(chat),
+           messages:
+             get_last_10_messages_for_chat(chat.id) |> Enum.map(&convert_message_to_map/1),
+           chats: socket.assigns.chats ++ [convert_chat_to_map(chat)]
          )}
 
       {:error, changeset} ->
