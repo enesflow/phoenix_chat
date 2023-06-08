@@ -1,25 +1,11 @@
 # QuickChat
 
-A simple chat application (almost) built with Phoenix LiveView and Svelte
-It also has authentication
+A simple chat application built with Phoenix LiveView and Svelte. It also has authentication
+
+#### Major problems
+
+-   We got to create a general function called "convert_ecto_to_map" that will convert the ecto struct to a map. This is because the ecto struct cannot be passed into Svelte by default. Currently I have many functions like, "convert_message_to_map", "convert_user_to_map", "convert_chat_to_map", etc.
 
 ## Showcase
 
 ![Showcase Gif](github/showcase.gif)
-
-To start your Phoenix server:
-
--   Run `mix setup` to install and setup dependencies
--   Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`
-
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
-
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
-
-## Learn more
-
--   Official website: https://www.phoenixframework.org/
--   Guides: https://hexdocs.pm/phoenix/overview.html
--   Docs: https://hexdocs.pm/phoenix
--   Forum: https://elixirforum.com/c/phoenix-forum
--   Source: https://github.com/phoenixframework/phoenix
