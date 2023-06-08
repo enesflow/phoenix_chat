@@ -18,9 +18,12 @@ defmodule TwitterWeb.Router do
   end
 
   scope "/", TwitterWeb do
-    pipe_through :browser
+    pipe_through [:browser, :require_authenticated_user]
 
-    live "/", PageLive
+    live_session :home,
+      on_mount: [{TwitterWeb.UserAuth, :mount_current_user}] do
+      live "/", PageLive
+    end
   end
 
   # Other scopes may use custom stacks.

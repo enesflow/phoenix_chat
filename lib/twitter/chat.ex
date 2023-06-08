@@ -4,6 +4,7 @@ defmodule Twitter.Chat do
 
   schema "chats" do
     field :members, {:array, :string}
+    field :title, :string
     has_many :messages, Twitter.Message
     has_many :users, through: [:messages, :user]
 
@@ -13,7 +14,7 @@ defmodule Twitter.Chat do
   @doc false
   def changeset(chat, attrs) do
     chat
-    |> cast(attrs, [:members])
+    |> cast(attrs, [:title, :members])
     |> validate_required([:members])
   end
 end

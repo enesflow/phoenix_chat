@@ -4,6 +4,7 @@ defmodule Twitter.Repo.Migrations.CreateChats do
   def change do
     create table(:chats) do
       add :members, {:array, :string}
+      add :title, :string
 
       timestamps()
     end

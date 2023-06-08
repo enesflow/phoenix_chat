@@ -5,7 +5,7 @@ defmodule Twitter.Message do
   schema "messages" do
     field :body, :string
 
-    belongs_to :user, Twitter.User
+    belongs_to :user, Twitter.Users.User
     belongs_to :chat, Twitter.Chat
 
     timestamps()
