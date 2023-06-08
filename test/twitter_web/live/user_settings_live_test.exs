@@ -1,9 +1,9 @@
-defmodule TwitterWeb.UserSettingsLiveTest do
-  use TwitterWeb.ConnCase
+defmodule QuickChatWeb.UserSettingsLiveTest do
+  use QuickChatWeb.ConnCase
 
-  alias Twitter.Users
+  alias QuickChat.Users
   import Phoenix.LiveViewTest
-  import Twitter.UsersFixtures
+  import QuickChat.UsersFixtures
 
   describe "Settings page" do
     test "renders settings page", %{conn: conn} do

@@ -1,10 +1,10 @@
-defmodule Twitter.UsersTest do
-  use Twitter.DataCase
+defmodule QuickChat.UsersTest do
+  use QuickChat.DataCase
 
-  alias Twitter.Users
+  alias QuickChat.Users
 
-  import Twitter.UsersFixtures
-  alias Twitter.Users.{User, UserToken}
+  import QuickChat.UsersFixtures
+  alias QuickChat.Users.{User, UserToken}
 
   describe "get_user_by_email/1" do
     test "does not return the user if the email does not exist" do
@@ -160,8 +160,7 @@ defmodule Twitter.UsersTest do
     end
 
     test "validates current password", %{user: user} do
-      {:error, changeset} =
-        Users.apply_user_email(user, "invalid", %{email: unique_user_email()})
+      {:error, changeset} = Users.apply_user_email(user, "invalid", %{email: unique_user_email()})
 
       assert %{current_password: ["is not valid"]} = errors_on(changeset)
     end

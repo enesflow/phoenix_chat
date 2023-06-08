@@ -1,11 +1,11 @@
-defmodule TwitterWeb.UserForgotPasswordLiveTest do
-  use TwitterWeb.ConnCase
+defmodule QuickChatWeb.UserForgotPasswordLiveTest do
+  use QuickChatWeb.ConnCase
 
   import Phoenix.LiveViewTest
-  import Twitter.UsersFixtures
+  import QuickChat.UsersFixtures
 
-  alias Twitter.Users
-  alias Twitter.Repo
+  alias QuickChat.Users
+  alias QuickChat.Repo
 
   describe "Forgot password page" do
     test "renders email page", %{conn: conn} do

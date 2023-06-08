@@ -11,13 +11,13 @@
 msgid ""
 msgstr ""
 
-#: lib/twitter_web/components/core_components.ex:462
+#: lib/quickchat_web/components/core_components.ex:462
 #, elixir-autogen, elixir-format
 msgid "Actions"
 msgstr ""
 
-#: lib/twitter_web/components/core_components.ex:76
-#: lib/twitter_web/components/core_components.ex:128
+#: lib/quickchat_web/components/core_components.ex:76
+#: lib/quickchat_web/components/core_components.ex:128
 #, elixir-autogen, elixir-format
 msgid "close"
 msgstr ""

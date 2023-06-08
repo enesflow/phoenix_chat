@@ -1,10 +1,10 @@
-defmodule Twitter.AccountsTest do
-  use Twitter.DataCase
+defmodule QuickChat.AccountsTest do
+  use QuickChat.DataCase
 
-  alias Twitter.Accounts
+  alias QuickChat.Accounts
 
-  import Twitter.AccountsFixtures
-  alias Twitter.Accounts.{User, UserToken}
+  import QuickChat.AccountsFixtures
+  alias QuickChat.Accounts.{User, UserToken}
 
   describe "get_user_by_email/1" do
     test "does not return the user if the email does not exist" do

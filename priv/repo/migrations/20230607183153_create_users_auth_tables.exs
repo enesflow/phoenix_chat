@@ -1,4 +1,4 @@
-defmodule Twitter.Repo.Migrations.CreateUsersAuthTables do
+defmodule QuickChat.Repo.Migrations.CreateUsersAuthTables do
   use Ecto.Migration
 
   def change do

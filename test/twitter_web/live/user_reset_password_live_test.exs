@@ -1,10 +1,10 @@
-defmodule TwitterWeb.UserResetPasswordLiveTest do
-  use TwitterWeb.ConnCase
+defmodule QuickChatWeb.UserResetPasswordLiveTest do
+  use QuickChatWeb.ConnCase
 
   import Phoenix.LiveViewTest
-  import Twitter.UsersFixtures
+  import QuickChat.UsersFixtures
 
-  alias Twitter.Users
+  alias QuickChat.Users
 
   setup do
     user = user_fixture()

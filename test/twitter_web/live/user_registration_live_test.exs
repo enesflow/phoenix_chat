@@ -1,8 +1,8 @@
-defmodule TwitterWeb.UserRegistrationLiveTest do
-  use TwitterWeb.ConnCase
+defmodule QuickChatWeb.UserRegistrationLiveTest do
+  use QuickChatWeb.ConnCase
 
   import Phoenix.LiveViewTest
-  import Twitter.UsersFixtures
+  import QuickChat.UsersFixtures
 
   describe "Registration page" do
     test "renders registration page", %{conn: conn} do

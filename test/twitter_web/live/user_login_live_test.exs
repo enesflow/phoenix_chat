@@ -1,8 +1,8 @@
-defmodule TwitterWeb.UserLoginLiveTest do
-  use TwitterWeb.ConnCase
+defmodule QuickChatWeb.UserLoginLiveTest do
+  use QuickChatWeb.ConnCase
 
   import Phoenix.LiveViewTest
-  import Twitter.UsersFixtures
+  import QuickChat.UsersFixtures
 
   describe "Log in page" do
     test "renders log in page", %{conn: conn} do

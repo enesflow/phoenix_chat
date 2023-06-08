@@ -1,11 +1,11 @@
-defmodule TwitterWeb.UserConfirmationLiveTest do
-  use TwitterWeb.ConnCase
+defmodule QuickChatWeb.UserConfirmationLiveTest do
+  use QuickChatWeb.ConnCase
 
   import Phoenix.LiveViewTest
-  import Twitter.UsersFixtures
+  import QuickChat.UsersFixtures
 
-  alias Twitter.Users
-  alias Twitter.Repo
+  alias QuickChat.Users
+  alias QuickChat.Repo
 
   setup do
     %{user: user_fixture()}

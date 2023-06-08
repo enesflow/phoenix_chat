@@ -1,2 +1,2 @@
 ExUnit.start()
-Ecto.Adapters.SQL.Sandbox.mode(Twitter.Repo, :manual)
+Ecto.Adapters.SQL.Sandbox.mode(QuickChat.Repo, :manual)

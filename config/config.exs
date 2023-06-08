@@ -7,17 +7,17 @@
 # General application configuration
 import Config
 
-config :twitter,
-  ecto_repos: [Twitter.Repo]
+config :quickchat,
+  ecto_repos: [QuickChat.Repo]
 
 # Configures the endpoint
-config :twitter, TwitterWeb.Endpoint,
+config :quickchat, QuickChatWeb.Endpoint,
   url: [host: "localhost"],
   render_errors: [
-    formats: [html: TwitterWeb.ErrorHTML, json: TwitterWeb.ErrorJSON],
+    formats: [html: QuickChatWeb.ErrorHTML, json: QuickChatWeb.ErrorJSON],
     layout: false
   ],
-  pubsub_server: Twitter.PubSub,
+  pubsub_server: QuickChat.PubSub,
   live_view: [signing_salt: "wBsUPm9V"]
 
 # Configures the mailer
@@ -27,7 +27,7 @@ config :twitter, TwitterWeb.Endpoint,
 #
 # For production it's recommended to configure a different adapter
 # at the `config/runtime.exs`.
-config :twitter, Twitter.Mailer, adapter: Swoosh.Adapters.Local
+config :quickchat, QuickChat.Mailer, adapter: Swoosh.Adapters.Local
 
 # Configure esbuild (the version is required)
 config :esbuild,

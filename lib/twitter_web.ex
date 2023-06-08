@@ -1,12 +1,12 @@
-defmodule TwitterWeb do
+defmodule QuickChatWeb do
   @moduledoc """
   The entrypoint for defining your web interface, such
   as controllers, components, channels, and so on.
 
   This can be used in your application as:
 
-      use TwitterWeb, :controller
-      use TwitterWeb, :html
+      use QuickChatWeb, :controller
+      use QuickChatWeb, :html
 
   The definitions below will be executed for every controller,
   component, etc, so keep them short and clean, focused
@@ -40,10 +40,10 @@ defmodule TwitterWeb do
     quote do
       use Phoenix.Controller,
         formats: [:html, :json],
-        layouts: [html: TwitterWeb.Layouts]
+        layouts: [html: QuickChatWeb.Layouts]
 
       import Plug.Conn
-      import TwitterWeb.Gettext
+      import QuickChatWeb.Gettext
 
       unquote(verified_routes())
     end
@@ -52,7 +52,7 @@ defmodule TwitterWeb do
   def live_view do
     quote do
       use Phoenix.LiveView,
-        layout: {TwitterWeb.Layouts, :app}
+        layout: {QuickChatWeb.Layouts, :app}
 
       unquote(html_helpers())
     end
@@ -84,11 +84,14 @@ defmodule TwitterWeb do
       # HTML escaping functionality
       import Phoenix.HTML
       # Core UI components and translation
-      import TwitterWeb.CoreComponents
-      import TwitterWeb.Gettext
+      import QuickChatWeb.CoreComponents
+      import QuickChatWeb.Gettext
 
       # Shortcut for generating JS commands
       alias Phoenix.LiveView.JS
+
+      #  Svelte
+      import LiveSvelte
 
       # Routes generation with the ~p sigil
       unquote(verified_routes())
@@ -98,9 +101,9 @@ defmodule TwitterWeb do
   def verified_routes do
     quote do
       use Phoenix.VerifiedRoutes,
-        endpoint: TwitterWeb.Endpoint,
-        router: TwitterWeb.Router,
-        statics: TwitterWeb.static_paths()
+        endpoint: QuickChatWeb.Endpoint,
+        router: QuickChatWeb.Router,
+        statics: QuickChatWeb.static_paths()
     end
   end
 

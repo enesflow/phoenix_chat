@@ -1,5 +1,5 @@
-defmodule TwitterWeb.PageControllerTest do
-  use TwitterWeb.ConnCase
+defmodule QuickChatWeb.PageControllerTest do
+  use QuickChatWeb.ConnCase
 
   test "GET /", %{conn: conn} do
     conn = get(conn, ~p"/")

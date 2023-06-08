@@ -1,17 +1,17 @@
-defmodule TwitterWeb.UserAuthTest do
-  use TwitterWeb.ConnCase, async: true
+defmodule QuickChatWeb.UserAuthTest do
+  use QuickChatWeb.ConnCase, async: true
 
   alias Phoenix.LiveView
-  alias Twitter.Users
-  alias TwitterWeb.UserAuth
-  import Twitter.UsersFixtures
+  alias QuickChat.Users
+  alias QuickChatWeb.UserAuth
+  import QuickChat.UsersFixtures
 
-  @remember_me_cookie "_twitter_web_user_remember_me"
+  @remember_me_cookie "_quickchat_web_user_remember_me"
 
   setup %{conn: conn} do
     conn =
       conn
-      |> Map.replace!(:secret_key_base, TwitterWeb.Endpoint.config(:secret_key_base))
+      |> Map.replace!(:secret_key_base, QuickChatWeb.Endpoint.config(:secret_key_base))
       |> init_test_session(%{})
 
     %{user: user_fixture(), conn: conn}
@@ -66,7 +66,7 @@ defmodule TwitterWeb.UserAuthTest do
 
     test "broadcasts to the given live_socket_id", %{conn: conn} do
       live_socket_id = "users_sessions:abcdef-token"
-      TwitterWeb.Endpoint.subscribe(live_socket_id)
+      QuickChatWeb.Endpoint.subscribe(live_socket_id)
 
       conn
       |> put_session(:live_socket_id, live_socket_id)
@@ -164,7 +164,7 @@ defmodule TwitterWeb.UserAuthTest do
       session = conn |> put_session(:user_token, user_token) |> get_session()
 
       socket = %LiveView.Socket{
-        endpoint: TwitterWeb.Endpoint,
+        endpoint: QuickChatWeb.Endpoint,
         assigns: %{__changed__: %{}, flash: %{}}
       }
 
@@ -176,7 +176,7 @@ defmodule TwitterWeb.UserAuthTest do
       session = conn |> get_session()
 
       socket = %LiveView.Socket{
-        endpoint: TwitterWeb.Endpoint,
+        endpoint: QuickChatWeb.Endpoint,
         assigns: %{__changed__: %{}, flash: %{}}
       }
 

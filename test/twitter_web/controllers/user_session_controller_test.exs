@@ -1,7 +1,7 @@
-defmodule TwitterWeb.UserSessionControllerTest do
-  use TwitterWeb.ConnCase, async: true
+defmodule QuickChatWeb.UserSessionControllerTest do
+  use QuickChatWeb.ConnCase, async: true
 
-  import Twitter.UsersFixtures
+  import QuickChat.UsersFixtures
 
   setup do
     %{user: user_fixture()}
@@ -35,7 +35,7 @@ defmodule TwitterWeb.UserSessionControllerTest do
           }
         })
 
-      assert conn.resp_cookies["_twitter_web_user_remember_me"]
+      assert conn.resp_cookies["_quickchat_web_user_remember_me"]
       assert redirected_to(conn) == ~p"/"
     end
 

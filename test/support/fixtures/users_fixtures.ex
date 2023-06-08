@@ -1,7 +1,7 @@
-defmodule Twitter.UsersFixtures do
+defmodule QuickChat.UsersFixtures do
   @moduledoc """
   This module defines test helpers for creating
-  entities via the `Twitter.Users` context.
+  entities via the `QuickChat.Users` context.
   """
 
   def unique_user_email, do: "user#{System.unique_integer()}@example.com"
@@ -18,7 +18,7 @@ defmodule Twitter.UsersFixtures do
     {:ok, user} =
       attrs
       |> valid_user_attributes()
-      |> Twitter.Users.register_user()
+      |> QuickChat.Users.register_user()
 
     user
   end
